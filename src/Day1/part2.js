@@ -7,9 +7,19 @@ const lines = fileContent.split('\n');
 let total = 0;
 
 function findNumbersInString(line) {
-    const numberRegex =  /\b(?:one|two|three|four|five|six|seven|eight|nine|[1-9])(?=\b|\w{2})/g;
+    let unprocessedLine = line + '';
+    const oneNumberRegex =  /one|two|three|four|five|six|seven|eight|nine|[1-9]/g;
+    const numbers = [];
 
-    return line.match(numberRegex);
+    while(unprocessedLine.length > 0) {
+        let number = unprocessedLine.match(oneNumberRegex);
+        if(number){
+        numbers.push(number[0]);
+        }
+        unprocessedLine = unprocessedLine.slice(1);
+    }
+
+    return numbers;
 }
 
 function convertToDigits(numbers) {
