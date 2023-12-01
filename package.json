@@ -2,7 +2,7 @@
   "name": "AdventOfCode",
   "version": "1.0.0",
   "scripts": {
-    "start": "src/Day1/script.js"
+    "start": "src/Day1/part1.js"
   },
   "type": "module",
   "dependencies": {
