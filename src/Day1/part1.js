@@ -4,27 +4,20 @@ const filePath = 'input';
 const fileContent = fs.readFileSync(filePath, 'utf-8');
 const lines = fileContent.split('\n');
 
-let total = 0;
+function useFirstAndLast(numbers) {
+    return numbers[0] + numbers[numbers.length - 1];
+}
 
-function findNumbersInString(line) {
+function filterAllNumbers(line) {
     return line.match(/[1234567890]/g);
 }
 
-function combineFirstAndLastNumber(numbers) {
-    const firstDigit = numbers[0];
-    const lastDigit = numbers[numbers.length - 1];
+let streamResult = lines
+    .filter(line => line.length > 0)
+    .map(line => filterAllNumbers(line))
+    .map(numbers => useFirstAndLast(numbers))
+    .map(number=>  parseInt(number))
+    .reduce((a, b) => a + b, 0);
 
-    const combinedDigit = firstDigit + lastDigit;
+console.log(streamResult);
 
-    console.log(`${firstDigit} + ${lastDigit} = ${combinedDigit}`);
-    return parseInt(combinedDigit);
-}
-
-lines.forEach((line) => {
-    const numbers = findNumbersInString(line);
-
-    if (numbers) {
-        total += combineFirstAndLastNumber(numbers);
-        console.log(`-> Total: ${total}    from line ${line}`);
-    }
-});
