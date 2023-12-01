@@ -8,11 +8,7 @@ let total = 0;
 
 lines.forEach((line) => {
 
-    function findNumbersAsString(line) {
-        return line.match(/[1234567890]/g);
-    }
-
-    const numbers = findNumbersAsString(line);
+    const numbers = line.match(/[1234567890]/g);
 
     if (numbers) {
         const firstDigit = numbers[0];
@@ -20,7 +16,7 @@ lines.forEach((line) => {
         const combinedDigit = parseInt(firstDigit + lastDigit);
 
         total += combinedDigit;
-        console.log(`${firstDigit} + ${lastDigit} = ${combinedDigit} -> Total: ${total}    from ${line}`);
+        console.log(`${firstDigit} + ${lastDigit} = ${combinedDigit} -> Total: ${total}    from line ${line}`);
     }
 
 });
