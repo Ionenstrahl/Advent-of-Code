@@ -1,0 +1,10 @@
+{
+  "name": "AdventOfCode",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "src/Day1/script.js"
+  },
+  "type": "module",
+  "dependencies": {
+  }
+}
