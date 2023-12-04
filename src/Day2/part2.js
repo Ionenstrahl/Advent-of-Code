@@ -1,28 +1,28 @@
-import {readExample, readFile} from "../common/importer.js";
+import {readFile} from "../common/importer.js";
 
 const RED = 'red';
 const GREEN = 'green';
 const BLUE = 'blue';
 
-function maximumSeenColor(color, line) {
+const gamePower = (line) => {
+    return [RED, GREEN, BLUE].
+    map(color => maximumSeenColor(color, line)).
+    reduce((a, b) => a * b, 1);
+}
+
+const maximumSeenColor = (color, line) => {
+    const numbers = extractNumbers(color, line);
+
+    return Math.max(...numbers);
+}
+
+const extractNumbers = (color, line) => {
     const regex = new RegExp(`(\\d+)\\s${color}`, 'g');
-    const result = line
-        .match(regex)
+
+    return line.match(regex)
         .map(numberAndColor => numberAndColor.split(' ')[0])
-        .map(number => parseInt(number))
-        .reduce((a, b) => Math.max(a, b), 0);
-
-    console.log('max ' + color + ' : ' + result)
-    return result;
-}
-
-function gamePower(line) {
-    const result = maximumSeenColor(RED, line) *
-        maximumSeenColor(GREEN, line)  *
-        maximumSeenColor(BLUE, line) ;
-    console.log(result)
-    return result;
-}
+        .map(number => parseInt(number));
+};
 
 const result = readFile()
     .map(line => gamePower(line))
