@@ -1,4 +1,4 @@
-import {readExample} from "../common/importer.js";
+import {readFile} from "../common/importer.js";
 
 const symbolPositions = (line, y) => {
     const specialCharRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,<>\/?]+/
@@ -63,11 +63,10 @@ const numbers = (line, y) => {
         .map((character, x) => [x, y, character])
         .filter(([x, y, character]) => digitRegex.test(character))
         .reduce(positionToNumber(), [])
-    //console.log(numbers)
     return numbers;
 }
 
-const validPositions = readExample()
+const validPositions = readFile()
     .map((line, index) => symbolPositions(line, index))
     .reduce((a, b) => a.concat(b), [])
     .map(([x, y]) => positionsAroundSymbol(x, y))
@@ -84,10 +83,10 @@ function groupNumbers() {
 }
 
 function numberHasValidPosition() {
-    return numbers => numbers.some(([x, y, number]) =>  validPositions.some(([validX, validY]) => x == validX && y == validY))
+    return numbers => numbers.some(([x, y, number]) => validPositions.some(([validX, validY]) => x == validX && y == validY))
 }
 
-const sumOfValidNumbers = readExample()
+const sumOfValidNumbers = readFile()
     .map((line, index) => numbers(line, index))
     .reduce((a, b) => a.concat(b), [])
     .reduce(groupNumbers(), [])
