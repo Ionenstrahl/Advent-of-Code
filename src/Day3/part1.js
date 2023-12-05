@@ -44,7 +44,7 @@ function positionToNumber() {
             const prepreviousY = posNums[posNums.length - 2][1];
             const prepreviousNumber = posNums[posNums.length - 2][2];
 
-            if (prepreviousX == x- 2 && prepreviousY == y) {
+            if (prepreviousX == x - 2 && prepreviousY == y) {
                 composedNumber = prepreviousNumber + number;
                 posNums[posNums.length - 1][2] = composedNumber;
                 posNums[posNums.length - 2][2] = composedNumber;
@@ -63,7 +63,8 @@ const numbers = (line, y) => {
         .map((character, x) => [x, y, character])
         .filter(([x, y, character]) => digitRegex.test(character))
         .reduce(positionToNumber(), [])
-    console.log(numbers)
+    //console.log(numbers)
+    return numbers;
 }
 
 const validPositions = readExample()
@@ -72,13 +73,27 @@ const validPositions = readExample()
     .map(([x, y]) => positionsAroundSymbol(x, y))
     .reduce((a, b) => a.concat(b), [])
 
+function groupNumbers() {
+    return (result, number) => {
+        if (result.length > 0 && result[result.length - 1][0][2] === number[2]) {
+            const lastArray = result[result.length - 1];
+            return [...result.slice(0, -1), [...lastArray, number]];
+        }
+        return result.concat([[number]]);
+    }
+}
+
+function numberHasValidPosition() {
+    return numbers => numbers.some(([x, y, number]) =>  validPositions.some(([validX, validY]) => x == validX && y == validY))
+}
+
 const sumOfValidNumbers = readExample()
     .map((line, index) => numbers(line, index))
     .reduce((a, b) => a.concat(b), [])
-//     .forEach
-//     .filter('numbers that have at least on valid position')
-//     .map(line => 'array of valid numbers')
-//     .reduce((a, b) => a + b, 0);
+    .reduce(groupNumbers(), [])
+    .filter(numberHasValidPosition())
+    .map(numbers => numbers[0][2])
+    .map(number => parseInt(number))
+    .reduce((a, b) => a + b, 0);
 
-//console.log(validPositions);
-//console.log(sumOfValidNumbers);
+console.log(sumOfValidNumbers);
