@@ -1,4 +1,4 @@
-import {readExample} from "../common/importer.js";
+import {readExample, readFile} from "../common/importer.js";
 
 function numbers(line, winningNumbersRegex) {
     return line
@@ -21,7 +21,7 @@ const yourNumbers = (line) => {
     return numbers(line, yourNumbersRegex);
 }
 
-const result = readExample()
+const result = readFile()
     .map(line => [winningNumbers(line), yourNumbers(line)])
     .map(([winningNumbers, yourNumbers]) => yourNumbers.filter(number => winningNumbers.includes(number)))
     .reduce((a, b) => {
