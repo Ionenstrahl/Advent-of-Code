@@ -1,4 +1,4 @@
-import {readExample, readFile} from "../common/importer.js";
+import {readFile} from "../common/importer.js";
 
 function numbers(line, winningNumbersRegex) {
     return line
@@ -21,14 +21,16 @@ const yourNumbers = (line) => {
     return numbers(line, yourNumbersRegex);
 }
 
+const points = () => (a, b) => {
+    if (b.length === 0) {
+        return a;
+    }
+    return a + Math.pow(2, b.length - 1)
+}
+
 const result = readFile()
     .map(line => [winningNumbers(line), yourNumbers(line)])
     .map(([winningNumbers, yourNumbers]) => yourNumbers.filter(number => winningNumbers.includes(number)))
-    .reduce((a, b) => {
-        if (b.length === 0) {
-            return a;
-        }
-        return a + Math.pow(2,b.length-1)
-    }, 0);
+    .reduce(points(), 0);
 
 console.log(result)
