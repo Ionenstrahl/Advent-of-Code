@@ -1,13 +1,12 @@
 import {readFile} from "../common/importer.js";
 
-export function numbers(line, winningNumbersRegex) {
-    return line
-        .match(winningNumbersRegex)[1]
-        .trim()
-        .replaceAll('  ', ' ')
-        .split(' ')
-        .map(number => parseInt(number));
-}
+const numbers = (line, winningNumbersRegex) => line
+    .match(winningNumbersRegex)[1]
+    .trim()
+    .replaceAll('  ', ' ')
+    .split(' ')
+    .map(number => parseInt(number));
+
 
 export const winningNumbers = (line) => {
     const winningNumbersRegex = /:([^|]+)/
