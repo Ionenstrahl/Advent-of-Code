@@ -1,7 +1,7 @@
 import {readFile} from "../common/importer.js";
 
 
-const numbers = (line, y) => {
+export const numbers = (line, y) => {
     const digitRegex = /[1234567890]/;
 
     return line.split('')
@@ -45,7 +45,7 @@ const positionToNumber = () => {
     };
 }
 
-const groupNumbers = () => (result, number) => {
+export const groupNumbers = () => (result, number) => {
     if (result.length > 0 && result[result.length - 1][0][2] === number[2]) {
         const lastArray = result[result.length - 1];
         return [...result.slice(0, -1), [...lastArray, number]];
@@ -57,7 +57,7 @@ const numberHasValidPosition = () => numbers =>
     numbers.some(([x, y, number]) => validPositions.some(([validX, validY]) => x === validX && y === validY))
 
 
-const symbolPositions = (line, y) => {
+export const symbolPositions = (line, y) => {
     const specialCharRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,<>\/?]+/
 
     return line.split('')
@@ -66,7 +66,7 @@ const symbolPositions = (line, y) => {
         .map(([x, y, symbol]) => [x, y])
 }
 
-const positionsAroundSymbol = (x, y) => {
+export const positionsAroundSymbol = (x, y) => {
     return [
         [x - 1, y - 1],
         [x - 1, y],
