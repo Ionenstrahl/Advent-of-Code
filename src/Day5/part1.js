@@ -1,6 +1,6 @@
-import {readExample} from "../common/importer.js";
+import {readExample, readFile} from "../common/importer.js";
 
-const lines = readExample()
+const lines = readFile()
 
 // Parse seeds from the first line
 const seeds = lines[0].trim().slice(7).split(' ').map(Number);
@@ -65,3 +65,9 @@ const locations = mapSeedsToLocations(seeds, maps);
 // Display the results
 console.log("Seeds:", seeds);
 console.log("Locations:", locations);
+
+const min = locations.reduce((a, b) => Math.min(a, b), 9999999999999)
+
+
+console.log(min)
+
