@@ -1,9 +1,9 @@
 import {readFile} from "../common/importer.js";
 
-const lines = readFile()
+export const lines = readFile()
 
 const seeds = lines[0].trim().slice(7).split(' ').map(Number);
-const maps = {};
+export const maps = {};
 
 function parseMap(lines) {
     return lines.map(line => line.trim().split(' ').map(Number));
@@ -46,7 +46,7 @@ function mapValueToLocation(value, map) {
 }
 
 // Function to map seeds to locations
-function mapSeedsToLocations(seeds, maps) {
+export function mapSeedsToLocations(seeds, maps) {
     let result = seeds;
     for (const stage in maps) {
         result = result.map(seed => mapValueToLocation(seed, maps[stage]));
