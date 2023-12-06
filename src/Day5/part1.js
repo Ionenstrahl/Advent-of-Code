@@ -1,19 +1,14 @@
-import {readExample, readFile} from "../common/importer.js";
+import {readFile} from "../common/importer.js";
 
 const lines = readFile()
 
-// Parse seeds from the first line
 const seeds = lines[0].trim().slice(7).split(' ').map(Number);
-
-// Initialize the maps object
 const maps = {};
 
-// Helper function to parse a map from lines
 function parseMap(lines) {
     return lines.map(line => line.trim().split(' ').map(Number));
 }
 
-// Iterate through the lines and parse maps based on section headers
 let currentMapName = '';
 let currentMapLines = [];
 
@@ -59,15 +54,9 @@ function mapSeedsToLocations(seeds, maps) {
     return result;
 }
 
-// Map seeds to locations
-const locations = mapSeedsToLocations(seeds, maps);
 
-// Display the results
-console.log("Seeds:", seeds);
-console.log("Locations:", locations);
-
-const min = locations.reduce((a, b) => Math.min(a, b), 9999999999999)
-
+const min = mapSeedsToLocations(seeds, maps)
+    .reduce((a, b) => Math.min(a, b), 9999999999999)
 
 console.log(min)
 
