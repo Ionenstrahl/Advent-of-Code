@@ -1,41 +1,42 @@
-// Input seeds
-const seeds = [79, 14, 55, 13];
+import {readExample} from "../common/importer.js";
 
-// Define maps for each stage
-const maps = {
-    seedToSoil: [
-        [50, 98, 2],
-        [52, 50, 48]
-    ],
-    soilToFertilizer: [
-        [0, 15, 37],
-        [37, 52, 2],
-        [39, 0, 15]
-    ],
-    fertilizerToWater: [
-        [49, 53, 8],
-        [0, 11, 42],
-        [42, 0, 7],
-        [57, 7, 4]
-    ],
-    waterToLight: [
-        [88, 18, 7],
-        [18, 25, 70]
-    ],
-    lightToTemperature: [
-        [45, 77, 23],
-        [81, 45, 19],
-        [68, 64, 13]
-    ],
-    temperatureToHumidity: [
-        [0, 69, 1],
-        [1, 0, 69]
-    ],
-    humidityToLocation: [
-        [60, 56, 37],
-        [56, 93, 4]
-    ]
-};
+const lines = readExample()
+
+// Parse seeds from the first line
+const seeds = lines[0].trim().slice(7).split(' ').map(Number);
+
+// Initialize the maps object
+const maps = {};
+
+// Helper function to parse a map from lines
+function parseMap(lines) {
+    return lines.map(line => line.trim().split(' ').map(Number));
+}
+
+// Iterate through the lines and parse maps based on section headers
+let currentMapName = '';
+let currentMapLines = [];
+
+for (const line of lines.slice(1)) {
+    if (line.trim().endsWith(' map:')) {
+        // Save the current map
+        if (currentMapName && currentMapLines.length > 0) {
+            maps[currentMapName] = parseMap(currentMapLines);
+        }
+
+        // Start a new map section
+        currentMapName = line.trim().replace(' map:', '');
+        currentMapLines = [];
+    } else {
+        // Collect lines for the current map
+        currentMapLines.push(line);
+    }
+}
+
+// Save the last map
+if (currentMapName && currentMapLines.length > 0) {
+    maps[currentMapName] = parseMap(currentMapLines);
+}
 
 // Function to map value to location based on a given map
 function mapValueToLocation(value, map) {
