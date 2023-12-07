@@ -21,8 +21,6 @@ const cardRanksWithJokerRule = {
     'J': 1
 }
 
-console.log(cardRanksWithJokerRule)
-
 export function compareHands(handAndBid1, handAndBid2) {
     const hand1 = handAndBid1.hand;
     const hand2 = handAndBid2.hand;

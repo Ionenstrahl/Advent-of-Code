@@ -1,5 +1,5 @@
 import {parse} from "./parser.js";
-import {compareHands, compareHandsWithJokerRule} from "./comparer.js";
+import { compareHandsWithJokerRule} from "./comparer.js";
 
 const handsAndBids = parse()
 
