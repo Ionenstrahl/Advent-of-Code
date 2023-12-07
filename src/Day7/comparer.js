@@ -16,7 +16,9 @@ const cardRanks = {
     'A': 14,
 };
 
-export function compareHands(hand1, hand2) {
+export function compareHands(handAndBid1, handAndBid2) {
+    const hand1 = handAndBid1.hand;
+    const hand2 = handAndBid2.hand;
 
     // Compare Types
     const rank1 = type(hand1).rank;
