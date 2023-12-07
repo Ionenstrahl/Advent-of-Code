@@ -23,7 +23,7 @@ export function compareHands(hand1, hand2) {
     const rank2 = type(hand2).rank;
 
     if (rank1 !== rank2) {
-        return (rank2 - rank1) * 100; // Higher rank comes first
+        return (rank1 - rank2) * 100; // Higher rank comes first
     }
 
     // Compare Card by Card
@@ -32,7 +32,7 @@ export function compareHands(hand1, hand2) {
         const card2 = hand2[i];
 
         if (card1 !== card2) {
-            return cardRanks[card2] - cardRanks[card1]; // Higher character value comes first
+            return cardRanks[card1] - cardRanks[card2]; // Higher character value comes first
         }
     }
 
