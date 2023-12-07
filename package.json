@@ -5,6 +5,7 @@
     "start": "node src\\Day1\\script.js"
   },
   "type": "module",
-  "dependencies": {
+  "devDependencies": {
+    "tsx": "^4.6.2"
   }
 }
