@@ -1,11 +1,11 @@
-import {readExample} from "../common/importer.js";
+import { readFile} from "../common/importer.js";
 
 const parseLine = line => {
     const [hand, bid] = line.split(' ');
     return {hand, bid: parseInt(bid.match(/\d+/)[0])};
 };
 
-export const parse = () => readExample()
+export const parse = () => readFile()
     .map(parseLine)
     .reduce(
         (acc, {hand, bid}) => {
