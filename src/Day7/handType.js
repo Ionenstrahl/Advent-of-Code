@@ -32,4 +32,47 @@ export function type(hand) {
     }
 }
 
+export function typeWithJokerRule(hand) {
+    const labels = [...new Set(hand)]; // Get unique labels in the hand
+    let jokerCount = 0;
+
+    const counts = labels.map(label => {
+        const count = hand.split(label).length - 1
+        if (label === 'J') {
+            jokerCount = count;
+            return 0;
+        }
+        return count;
+    });
+
+    const maxCount = Math.max(...counts);
+
+    switch (maxCount + jokerCount) {
+        case 5:
+            return fiveOfAKind;
+        case 4:
+            return fourOfAKind;
+        case 3:
+            if (jokerCount === 0) {
+                if (counts.includes(2)) {
+                    return fullHouse;
+                }
+                return threeOfAKind;
+            }
+
+            if (counts.filter(count => count === 2).length === 2) {
+                return fullHouse;
+            }
+            return threeOfAKind;
+        case 2:
+            if (counts.filter(count => count === 2).length === 2) {
+                return twoPair;
+            }
+            return onePair;
+
+        default:
+            return highCard;
+    }
+}
+
 
