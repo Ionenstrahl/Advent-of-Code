@@ -9,9 +9,8 @@ export const parse = () => readExample()
     .map(parseLine)
     .reduce(
         (acc, {hand, bid}) => {
-            acc.hands.push(hand);
-            acc.bids.push(bid);
+            acc.push({hand: hand, bid: bid});
             return acc;
         },
-        {hands: [], bids: []}
+        []
     );
