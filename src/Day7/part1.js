@@ -1,11 +1,10 @@
 import {parse} from "./parser.js";
+import {compareHands} from "./comparer.js";
 
-const parseLine = line => {
-    const [hand, bid] = line.split(' ');
-    return { hand, bid: parseInt(bid.match(/\d+/)[0]) };
-};
+const {hands, bids} = parse()
 
-const { hands, bids } = parse()
+const sortedHands = hands.sort(compareHands);
 
-console.log("Hands:", hands);
-console.log("Bids:", bids);
+
+console.log(sortedHands);
+
