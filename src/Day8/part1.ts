@@ -3,27 +3,33 @@ import {node, parseInstructions, parseNodes} from "./parser";
 
 const file: string[] = readFile();
 const instructions: string = parseInstructions(file);
-const nodes: node[] = parseNodes(file);
+export const nodes: node[] = parseNodes(file);
 
+let startingNode: node = nodes.find(node => node.name === 'AAA');
 
-let currentNode: node = nodes.find(node => node.name === 'AAA');
-let steps: number = 0;
+export type Condition = (node: node) => boolean;
+const endCondition: Condition = (node) => node.name === 'ZZZ';
 
-while(currentNode.name !== 'ZZZ'){
-    const instruction: string = getInfiniteInstructions(steps);
+export function getSteps(node: node, endCondition: Condition) {
+    let steps: number = 0;
 
-    let nextNodeName: string = getNextNodeName(instruction);
+    while (!endCondition(node)) {
+        const instruction: string = getInfiniteInstructions(steps);
 
-    currentNode = nodes.find(node => node.name === nextNodeName);
+        let nextNodeName: string = getNextNodeName(instruction, node);
 
-    steps++;
+        node = nodes.find(node => node.name === nextNodeName);
+
+        steps++;
+    }
+    return steps;
 }
 
 function getInfiniteInstructions(stepsTaken: number): string {
     return instructions[stepsTaken % (instructions.length - 1) ];
 }
 
-function getNextNodeName(instruction: string): string {
+function getNextNodeName(instruction: string, currentNode: node): string {
 
     if (instruction === 'R') {
         return currentNode.right;
@@ -31,4 +37,4 @@ function getNextNodeName(instruction: string): string {
     return currentNode.left;
 }
 
-console.log(steps);
+console.log(getSteps(startingNode, endCondition));

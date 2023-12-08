@@ -1,41 +1,21 @@
-import {readExample, readFile} from "../common/importer.js";
-import {node, parseInstructions, parseNodes} from "./parser";
+import {node} from "./parser";
+import {Condition, getSteps, nodes} from "./part1";
 
-const file: string[] = readExample();
-const instructions: string = parseInstructions(file);
-const nodes: node[] = parseNodes(file);
+let startingNodes: node[] = nodes.filter(node => node.name.endsWith('A'));
+const endCondition: Condition = (node) => node.name.endsWith('Z');
 
+const steps = startingNodes
+    .map(node => getSteps(node, endCondition))
+    .reduce((a, b) => lcm(a, b), 1)
 
-let currentNodes: node[] = nodes.filter(node => node.name[2] === 'A');
-let steps: number = 0;
-
-while(!allEndWithZ(currentNodes)){
-    const instruction: string = getInfiniteInstructions(steps);
-
-    const newNodes= currentNodes
-        .map(node => getNextNodeName(node, instruction))
-        .map(nodeName => nodes.find(node => node.name === nodeName))
-        .reduce((a,b) => a.concat(b), [])
-
-    currentNodes = newNodes;
-
-    steps++;
+function gcd(a, b) {
+    // Euclidean algorithm to find GCD
+    return b === 0 ? a : gcd(b, a % b);
 }
 
-function getInfiniteInstructions(stepsTaken: number): string {
-    return instructions[stepsTaken % (instructions.length - 1) ];
-}
-
-function getNextNodeName(currentNode: node, instruction: string): string {
-
-    if (instruction === 'R') {
-        return currentNode.right;
-    }
-    return currentNode.left;
-}
-
-function allEndWithZ(nodesToCheck: node[]): boolean {
-    return nodesToCheck.every(node => node.name[2] === 'Z');
+function lcm(a, b) {
+    // LCM formula
+    return Math.abs(a * b) / gcd(a, b);
 }
 
 console.log(steps);
