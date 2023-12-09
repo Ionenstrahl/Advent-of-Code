@@ -1,6 +1,6 @@
-import {readExample} from "../common/importer";
+import {readExample, readFile} from "../common/importer";
 
-const file: string[] = readExample();
+const file: string[] = readFile();
 
 const result = file
     .map(line => line.split(' ').map(Number))
