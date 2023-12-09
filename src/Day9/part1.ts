@@ -1,15 +1,16 @@
 import {readExample, readFile} from "../common/importer";
 
 const file: string[] = readFile();
+export const sequences = file
+    .map(line => line.split(' ').map(Number));
 
-const result = file
-    .map(line => line.split(' ').map(Number))
+const result = sequences
     .map(sequence => getSequences(sequence))
-    .map(sequences => addOneNumber(sequences))
+    .map(sequences => addLastNumber(sequences))
     .map(sequences => sequences[0][sequences[0].length - 1])
     .reduce((a, b) => a + b, 0);
 
-function getSequences(sequence: number[]):number[][] {
+export function getSequences(sequence: number[]):number[][] {
     return getNextSequences([sequence]);
 }
 
@@ -29,7 +30,7 @@ function getNextSequences(sequences: number[][]) {
     return getNextSequences(sequences);
 }
 
-function addOneNumber(sequences: number[][]): number[][] {
+function addLastNumber(sequences: number[][]): number[][] {
     const lastSequence = sequences[sequences.length - 1];
     lastSequence.push(0);
 
