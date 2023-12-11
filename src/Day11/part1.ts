@@ -1,7 +1,8 @@
-import {readExample, readFile} from "../common/importer";
+import { readFile} from "../common/importer";
 import {Galaxy} from "./galaxy";
 
 const input = readFile();
+const expansion = 1000000;
 
 const galaxies: Galaxy[] = input
     .flatMap((line, y) => line.split('').map((skyTile, x) => ({
@@ -31,12 +32,12 @@ const correctedGalaxies = galaxies
 
 function xShift(galaxy: Galaxy) {
 
-    return emptyColumns.filter(col => col < galaxy.x).length;
+    return emptyColumns.filter(col => col < galaxy.x).length * (expansion - 1);
 
 }
 
 function yShift(galaxy: Galaxy) {
-    return emptyRows.filter(row => row < galaxy.y).length;
+    return emptyRows.filter(row => row < galaxy.y).length * (expansion - 1);
 
 }
 
