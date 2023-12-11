@@ -1,23 +1,18 @@
 import {file, loopPipes, pipes} from "./part1";
+import {Pipe} from "./pipes";
 
 let enclosedTiles: number = 0;
 
 for (let y = 0; y < file.length; y++) {
-    let loopPipeTiles = 0;
+    let enclosingPipes = 0;
     let lastSymbol = '.';
 
     for (let x = 0; x < file[0].trim().length; x++) {
         const tile = pipes.find(pipe => pipe.position.x === x && pipe.position.y === y);
 
         if (isLoopPipe(tile)) {
-            if (tile.symbol === '|') {
-                loopPipeTiles++;
-            }
-            if (tile.symbol === 'J' && lastSymbol === 'F') {
-                loopPipeTiles++;
-            }
-            if (tile.symbol === '7' && lastSymbol === 'L') {
-                loopPipeTiles++;
+            if (isEnclosingPipe(tile, lastSymbol)){
+                enclosingPipes++;
             }
 
             if (tile.symbol === 'F' || tile.symbol ===  'L') {
@@ -29,7 +24,8 @@ for (let y = 0; y < file.length; y++) {
 
             continue;
         }
-        if (loopPipeTiles % 2 == 1) {
+
+        if (isEnclosedByLoop(enclosingPipes)) {
             enclosedTiles++;
         }
     }
@@ -37,8 +33,24 @@ for (let y = 0; y < file.length; y++) {
 }
 
 function isLoopPipe(tile) {
-
     return loopPipes.some(pipe => pipe.position.x === tile.position.x && pipe.position.y === tile.position.y)
+}
+
+function isEnclosingPipe(tile: Pipe, lastSymbol: string) {
+    if (tile.symbol === '|') {
+        return true;
+    }
+    if (tile.symbol === 'J' && lastSymbol === 'F') {
+        return true;
+    }
+    if (tile.symbol === '7' && lastSymbol === 'L') {
+        return true;
+    }
+    return false;
+}
+
+function isEnclosedByLoop(loopPipeTiles: number) {
+    return loopPipeTiles % 2 == 1;
 }
 
 console.log(enclosedTiles)
