@@ -1,8 +1,8 @@
 import {readExample, readFile} from "../common/importer";
 import {Direction, Pipe, pipeTransformations} from "./pipes";
 
-const file = readFile();
-const pipes: Pipe[] = file.flatMap(
+export const file = readExample();
+export const pipes: Pipe[] = file.flatMap(
     (line, index) => createPipes(line, index)
 )
 
@@ -24,6 +24,7 @@ function createPipes(line: string, lineNumber: number): Pipe[] {
 let direction = Direction.right;
 let pipe = pipes.find(pipe => pipe.symbol === 'S');
 let distance = 0;
+export const loopPipes = []
 
 while(distance == 0 || pipe.symbol !== 'S'){
     const oldDirection = direction;
@@ -31,11 +32,12 @@ while(distance == 0 || pipe.symbol !== 'S'){
 
     const newPosition = move(pipe.position, direction);
     pipe = pipes.find(pipe => pipe.position.x === newPosition.x && pipe.position.y === newPosition.y);
+    loopPipes.push(pipe);
 
     distance++;
 }
 
-function move(position, direction){
+export function move(position, direction){
     if (direction == Direction.right){
         return {
             x: position.x + 1,
@@ -62,4 +64,4 @@ function move(position, direction){
     }
 }
 
-console.log(distance / 2)
+console.log(loopPipes.length)
