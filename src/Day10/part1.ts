@@ -1,4 +1,4 @@
-import {readExample, readFile} from "../common/importer";
+import { readFile} from "../common/importer";
 import {Direction, Pipe, pipeTransformations} from "./pipes";
 
 export const file = readFile();
