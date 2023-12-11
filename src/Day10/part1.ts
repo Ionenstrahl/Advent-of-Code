@@ -1,7 +1,7 @@
 import {readExample, readFile} from "../common/importer";
 import {Direction, Pipe, pipeTransformations} from "./pipes";
 
-export const file = readExample();
+export const file = readFile();
 export const pipes: Pipe[] = file.flatMap(
     (line, index) => createPipes(line, index)
 )

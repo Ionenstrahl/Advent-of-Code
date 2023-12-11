@@ -27,7 +27,7 @@ for (let y = 0; y < file.length; y++) {
                 lastSymbol = tile.symbol;
             }
             if (tile.symbol === 'S') {
-                lastSymbol = 'F';
+                lastSymbol = 'L';
             }
 
             continue;
