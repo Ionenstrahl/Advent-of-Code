@@ -1,4 +1,4 @@
-import {file, loopPipes, pipes} from "./part1";
+import {file, isPipeAtPosition, loopPipes, pipes} from "./part1";
 import {Pipe} from "./pipes";
 
 let enclosedTiles: number = 0;
@@ -8,7 +8,7 @@ for (let y = 0; y < file.length; y++) {
     let lastSymbol = '.';
 
     for (let x = 0; x < file[0].trim().length; x++) {
-        const tile = pipes.find(pipe => pipe.position.x === x && pipe.position.y === y);
+        const tile = pipes.find(isPipeAtPosition({x, y}));
 
         if (isLoopPipe(tile)) {
             if (isEnclosingPipe(tile, lastSymbol)){
@@ -33,7 +33,7 @@ for (let y = 0; y < file.length; y++) {
 }
 
 function isLoopPipe(tile) {
-    return loopPipes.some(pipe => pipe.position.x === tile.position.x && pipe.position.y === tile.position.y)
+    return loopPipes.some(isPipeAtPosition(tile.position))
 }
 
 function isEnclosingPipe(tile: Pipe, lastSymbol: string) {

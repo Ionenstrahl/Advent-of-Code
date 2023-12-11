@@ -31,10 +31,14 @@ while(distance == 0 || pipe.symbol !== 'S'){
     direction = pipe.transformations.find(transformation => transformation.input == oldDirection).output;
 
     const newPosition = move(pipe.position, direction);
-    pipe = pipes.find(pipe => pipe.position.x === newPosition.x && pipe.position.y === newPosition.y);
+    pipe = pipes.find(isPipeAtPosition(newPosition));
     loopPipes.push(pipe);
 
     distance++;
+}
+
+export function isPipeAtPosition(pos: { x: any; y: any }) {
+    return pipe => pipe.position.x === pos.x && pipe.position.y === pos.y;
 }
 
 export function move(position, direction){
