@@ -1,12 +1,12 @@
-import {readExample} from "../common/importer";
+import {readExample, readFile} from "../common/importer";
 import {Galaxy} from "./galaxy";
 
-const input = readExample();
+const input = readFile();
 
 const galaxies: Galaxy[] = input
     .flatMap((line, y) => line.split('').map((skyTile, x) => ({
         skyTile,
-        galaxy:  {x, y}
+        galaxy: {x, y}
     })))
     .filter(({skyTile}) => skyTile === '#')
     .map(({galaxy}) => galaxy)
@@ -28,21 +28,21 @@ const correctedGalaxies = galaxies
         galaxy.y += yShift(galaxy);
         return galaxy
     })
+
 function xShift(galaxy: Galaxy) {
 
     return emptyColumns.filter(col => col < galaxy.x).length;
 
 }
+
 function yShift(galaxy: Galaxy) {
     return emptyRows.filter(row => row < galaxy.y).length;
 
 }
 
 const distanceSum = correctedGalaxies
-    .map(g1 => relevantCompareGalaxies(g1).map(g2 => calculateDistance(g1, g2))
-
-       .reduce((a, b) => a + b, 0)
-    ).reduce((a, b) => a + b, 0)
+    .flatMap(g1 => relevantCompareGalaxies(g1).map(g2 => calculateDistance(g1, g2)))
+    .reduce((sum, distance) => sum + distance, 0);
 
 function relevantCompareGalaxies(g1: Galaxy): Galaxy[] {
     return correctedGalaxies
