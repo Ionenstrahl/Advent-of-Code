@@ -1,7 +1,7 @@
 import {readExample, readFile} from "../common/importer";
 
 function result() {
-    return readExample()
+    return readFile()
         .map(line => line.trim().split(' '))
         .map(([plan, listing]) => ({plan, listing: listing.split(',').map(Number)}))
         .map(({plan, listing}) => ({variations: generateVariations(plan, 0, []), listing}))
@@ -12,7 +12,7 @@ function result() {
 
 }
 
-function generateVariations(input, index, current) {
+export function generateVariations(input, index, current) {
     if (index === input.length) {
         return [current];
     }
@@ -26,7 +26,7 @@ function generateVariations(input, index, current) {
     return generateVariations(input, index + 1, current + input[index]);
 }
 
-function variationList(variations: string[]) {
+export function variationList(variations: string[]) {
     return variations.map(variation => countConsecutiveHashes(variation))
 }
 
@@ -50,9 +50,9 @@ function countConsecutiveHashes(input) {
     return consecutiveCounts;
 }
 
-function validVariations(variationLists, listing) {
+export function validVariations(variationLists, listing) {
     return variationLists.filter(variationList => JSON.stringify(variationList) == JSON.stringify(listing));
 }
 
 
-console.log(result());
+//console.log(result());
