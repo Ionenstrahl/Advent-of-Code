@@ -1,5 +1,9 @@
 import {readExample} from "../common/importer";
 
+// Memoization cache
+const memo: Record<string, Record<string, Record<number, number>>> = {};
+
+
 function result() {
     return readExample()
         .map(line => line.trim().split(' '))
@@ -18,6 +22,12 @@ function unfoldListing(listing: string): string {
 }
 
     function count(plan: string, listing: string, buffer: number = 0): number {
+        // Check memoization cache
+        if (memo[plan] && memo[plan][buffer] && memo[plan][buffer][listing] !== undefined) {
+            return memo[plan][buffer][listing];
+        }
+
+
         if (plan.length == 0) {
             if (listing.length == 0 && buffer == 0 || listing.length == 1 && parseInt(listing[0]) == buffer) {
                 return 1;
@@ -35,6 +45,15 @@ function unfoldListing(listing: string): string {
             const newListing: string = buffer > 0 ? listing.slice(1) : listing;
             result += count(plan.slice(1), newListing)
         }
+
+        // Memoize the result
+        if (!memo[plan]) {
+            memo[plan] = {};
+        }
+        if (!memo[plan][buffer]) {
+            memo[plan][buffer] = {};
+        }
+        memo[plan][buffer][listing] = result;
 
         return result;
     }
