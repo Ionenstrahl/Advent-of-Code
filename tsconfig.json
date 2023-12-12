@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Node",
-    "target": "es2015",
+    "target": "es2019",
   },
   "ts-node": {
     "esm": true
