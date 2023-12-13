@@ -1,8 +1,8 @@
 import {readExample, readFile} from "../common/importer";
 
-const file: string[] = readFile();
+export const file: string[] = readExample();
 
-function formatPatterns() {
+export function formatPatterns() {
     return (patternArray: string[][][], newLine: string) => {
         const line: string[] = newLine.trim().split('')
 
@@ -61,7 +61,7 @@ function isVerticalMirror(index: number, pattern: string[][]): boolean {
     return true;
 }
 
-function isHorizontalMirror(index: number, pattern: string[][]): boolean {
+export function isHorizontalMirror(index: number, pattern: string[][]): boolean {
     const rowNumber = index + 1;
     const relevantRows: number = rowNumber < pattern.length / 2 ? rowNumber : pattern.length - rowNumber;
 
