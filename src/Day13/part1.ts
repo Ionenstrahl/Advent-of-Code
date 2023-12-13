@@ -1,6 +1,6 @@
-import {readExample, readFile} from "../common/importer";
+import { readFile} from "../common/importer";
 
-export const file: string[] = readExample();
+export const file: string[] = readFile();
 
 export function formatPatterns() {
     return (patternArray: string[][][], newLine: string) => {
