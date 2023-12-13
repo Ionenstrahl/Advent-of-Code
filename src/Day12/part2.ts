@@ -1,15 +1,15 @@
-import {readExample} from "../common/importer";
+import {readExample, readFile} from "../common/importer";
 
 // Memoization cache
-const memo: Record<string, Record<string, Record<number, number>>> = {};
+let memo: Record<string, number> = {};
 
 
 function result() {
-    return readExample()
+    return readFile()
         .map(line => line.trim().split(' '))
         .map(([plan, listing]) => ({plan, listing: listing.replaceAll(',', '')}))
         .map(({plan, listing}) => ({plan: unfoldPlan(plan), listing: unfoldListing(listing)}))
-        .map(({plan, listing}) => count(plan, listing))
+        .map(({plan, listing}) => {memo = {};return count(plan, listing)})
         .reduce((a, b) => a + b, 0);
 }
 
@@ -22,14 +22,14 @@ function unfoldListing(listing: string): string {
 }
 
     function count(plan: string, listing: string, buffer: number = 0): number {
-        // Check memoization cache
-        if (memo[plan] && memo[plan][buffer] && memo[plan][buffer][listing] !== undefined) {
-            return memo[plan][buffer][listing];
+    const key = plan + "," + listing + "," + buffer;
+        if (key in memo) {
+            return memo[key];
         }
 
 
         if (plan.length == 0) {
-            if (listing.length == 0 && buffer == 0 || listing.length == 1 && parseInt(listing[0]) == buffer) {
+            if (listing.length == 0 && buffer == 0 || listing.length == 1 && Number(listing[0]) == buffer) {
                 return 1;
             }
             return 0;
@@ -41,21 +41,15 @@ function unfoldListing(listing: string): string {
             result += count(plan.slice(1), listing, buffer + 1)
         }
 
-        if ((['.', '?'].includes(plan[0])) && (listing.length > 0 && parseInt(listing[0]) == buffer || buffer == 0)) {
+        if ((['.', '?'].includes(plan[0])) && (listing.length > 0 && Number(listing[0]) == buffer || buffer == 0)) {
             const newListing: string = buffer > 0 ? listing.slice(1) : listing;
             result += count(plan.slice(1), newListing)
         }
 
-        // Memoize the result
-        if (!memo[plan]) {
-            memo[plan] = {};
-        }
-        if (!memo[plan][buffer]) {
-            memo[plan][buffer] = {};
-        }
-        memo[plan][buffer][listing] = result;
+        memo[key] = result;
 
         return result;
     }
 
     console.log(result())
+//console.log(memo)
