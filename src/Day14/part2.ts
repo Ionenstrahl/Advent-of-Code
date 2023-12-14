@@ -1,4 +1,4 @@
-import {readExample, readFile} from "../common/importer";
+import {readFile} from "../common/importer";
 import {parseColumns, tiltNorth, torque} from "./part1";
 
 function rotateClockwise(columns: string[]): string[] {
@@ -24,9 +24,7 @@ function cycle(columnsFacingNorthButNotTilted: string[]) {
 
 }
 
-function allCycles() {
-    const file = readFile();
-    let lastFormation: string[] = parseColumns(file);
+function allCycles(lastFormation: string[]) {
     const rockFormations = [];
 
     let currentCycle = 0;
@@ -34,15 +32,13 @@ function allCycles() {
     let period = 0;
 
     while (currentCycle < cycles) {
-        console.log(currentCycle);
         lastFormation = cycle(lastFormation);
         currentCycle++;
 
         const jsonFormation = JSON.stringify(lastFormation);
         if (period == 0 && rockFormations.includes(jsonFormation)) {
             period = rockFormations.length - rockFormations.indexOf(jsonFormation);
-            const redundantCycles = Math.floor((cycles - currentCycle) / period) * period;
-            currentCycle += redundantCycles;
+            currentCycle += redundantCycles(cycles, currentCycle, period);
         }
 
         rockFormations.push(JSON.stringify(lastFormation));
@@ -52,7 +48,17 @@ function allCycles() {
     return lastFormation;
 }
 
-const result = allCycles()        .map((column: string) => torque(column))
-    .reduce((a: number, b: number) => a + b, 0)
+function redundantCycles(cycles: number, currentCycle: number, period: number) {
+    return Math.floor((cycles - currentCycle) / period) * period;
+}
 
-console.log(result);
+function totalTorque(): number {
+    const file: string[] = readFile();
+    const columns = parseColumns(file);
+
+    return allCycles(columns)
+        .map((column: string) => torque(column))
+        .reduce((a: number, b: number) => a + b, 0)
+}
+
+console.log(totalTorque());
