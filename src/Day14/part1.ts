@@ -1,6 +1,6 @@
-import { readExample } from "../common/importer";
+import { readFile} from "../common/importer";
 
-function parseColumns(file: string[]): string[] {
+export function parseColumns(file: string[]): string[] {
     return file[0].trim().split('')
         .map((_, index: number) =>
             file.map((row: string) => row[index])
@@ -8,7 +8,7 @@ function parseColumns(file: string[]): string[] {
         );
 }
 
-function tiltNorth(column: string): string {
+export function tiltNorth(column: string): string {
     const tiltedColumn: string = column.replace('.O', 'O.');
 
     if (tiltedColumn.includes('.O')) {
@@ -18,7 +18,7 @@ function tiltNorth(column: string): string {
     return tiltedColumn;
 }
 
-function torque(column: string): number {
+export function torque(column: string): number {
     const leverLength: number = column.length;
 
     return column.split('')
@@ -30,7 +30,7 @@ function torque(column: string): number {
 
 
 function totalTorque(): number {
-    const file: string[] = readExample();
+    const file: string[] = readFile();
 
     return parseColumns(file)
         .map((column: string) => tiltNorth(column))
@@ -38,4 +38,4 @@ function totalTorque(): number {
         .reduce((a: number, b: number) => a + b, 0)
 }
 
-console.log(totalTorque());
+//console.log(totalTorque());
