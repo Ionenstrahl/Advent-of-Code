@@ -4,15 +4,15 @@ import {parseColumns, tiltNorth, torque} from "./part1";
 function rotateClockwise(columns: string[]): string[] {
     const amountOfNewColumns: number = columns[0].length;
 
-    const rows: string[] = []
+    const rotatedRows: string[] = []
     for (let i = 0; i < amountOfNewColumns; i++) {
         const row: string = columns
             .map((column: string) => column[amountOfNewColumns - 1 - i])
             .reduce((a: string, b: string) => a + b, '')
-        rows.push(row);
+        rotatedRows.push(row);
     }
 
-    return rows;
+    return rotatedRows;
 }
 
 function cycle(columnsFacingNorthButNotTilted: string[]) {
@@ -28,20 +28,20 @@ function allCycles(lastFormation: string[]) {
     const rockFormations = [];
 
     let currentCycle = 0;
-    const cycles = 1000000000;
+    const totalCycles = 1000000000;
     let period = 0;
 
-    while (currentCycle < cycles) {
+    while (currentCycle < totalCycles) {
         lastFormation = cycle(lastFormation);
         currentCycle++;
 
         const jsonFormation = JSON.stringify(lastFormation);
         if (period == 0 && rockFormations.includes(jsonFormation)) {
             period = rockFormations.length - rockFormations.indexOf(jsonFormation);
-            currentCycle += redundantCycles(cycles, currentCycle, period);
+            currentCycle += redundantCycles(totalCycles, currentCycle, period);
         }
 
-        rockFormations.push(JSON.stringify(lastFormation));
+        rockFormations.push(jsonFormation);
     }
 
 
