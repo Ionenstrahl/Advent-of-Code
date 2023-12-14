@@ -25,7 +25,7 @@ function cycle(columnsFacingNorthButNotTilted: string[]) {
 }
 
 function allCycles() {
-    const file = readExample();
+    const file = readFile();
     let lastFormation: string[] = parseColumns(file);
     const rockFormations = [];
 
